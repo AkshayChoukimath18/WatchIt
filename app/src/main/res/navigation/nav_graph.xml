@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.watchit.ui.homepage.HomeFragment"
+        android:label="Home" />
+
+    <action
+        android:id="@+id/action_global_addMovieFragment"
+        app:destination="@id/addMovieFragment" />
+
+    <fragment
+        android:id="@+id/libraryListFragment"
+        android:name="com.example.watchit.ui.libraryList.LibraryListFragment"
+        android:label="Libraries"
+        tools:layout="@layout/fragment_library_list" >
+
+        <argument
+            android:name="libraryId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <action android:id="@+id/action_libraryList_to_libraryDetails"
+            app:destination="@id/libraryDetailFragment"/>
+
+        <action
+            android:id="@+id/action_libraryList_to_addMovie"
+            app:destination="@id/addMovieFragment" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/libraryDetailFragment"
+        android:name="com.example.watchit.ui.libraryDetails.LibraryDetailFragment"
+        android:label="Library Details"
+        tools:layout="@layout/fragment_library_detail">
+        <argument
+            android:name="libraryId"
+            app:argType="long" />
+
+        <action
+            android:id="@+id/action_libraryDetailFragment_to_addMovieFragment"
+            app:destination="@id/addMovieFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addMovieFragment"
+        android:name="com.example.watchit.ui.addMovie.AddMovieFragment"
+        android:label="Add Movie">
+
+        <!-- From inside app, we usually know the libraryId -->
+        <argument
+            android:name="libraryId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+
+        <!-- For share intent, we may come with a URL already -->
+        <argument
+            android:name="sharedUrl"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+</navigation>
