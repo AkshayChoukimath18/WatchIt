@@ -24,7 +24,7 @@ interface LibraryRepository {
         posterUrl: String?,
         sourceUrl: String,
         sourcePlatform: String
-    ): Long
+    ): Boolean
 
     suspend fun removeMovieFromLibrary(libraryId: Long, movieId: Long)
 

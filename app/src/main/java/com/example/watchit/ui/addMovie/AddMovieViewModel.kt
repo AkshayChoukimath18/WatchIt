@@ -212,9 +212,7 @@ class AddMovieViewModel @Inject constructor(
                     closeAfterSave = result.isSuccess
                 )
             }
-
         }
-
     }
 
 
