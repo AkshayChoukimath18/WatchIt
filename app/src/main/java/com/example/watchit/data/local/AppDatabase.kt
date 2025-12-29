@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
     LibraryEntity::class,
     MovieEntity::class,
     LibraryMovieCrossRef::class
-], version = 1, exportSchema = false)
+], version = 2, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun libraryDao(): LibraryDao
 }

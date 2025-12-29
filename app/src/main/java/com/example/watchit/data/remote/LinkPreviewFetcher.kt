@@ -3,11 +3,14 @@ package com.example.watchit.data.remote
 import android.util.Log
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 
 import okhttp3.Request
+import org.json.JSONObject
 import org.jsoup.Jsoup
 
 
@@ -20,7 +23,6 @@ class LinkPreviewFetcher(private val client: OkHttpClient = OkHttpClient()) {
                 .url(url)
                 .header("User-Agent","Mozilla/5.0")
                 .build()
-
 
             client.newCall(request).execute().use { response ->
 
@@ -38,9 +40,6 @@ class LinkPreviewFetcher(private val client: OkHttpClient = OkHttpClient()) {
                 val title = ogTitle ?: doc.title().takeIf { it.isNotBlank() }
                 val desc = ogDesc ?: doc.selectFirst("meta[name=description]")?.attr("content")?.takeIf { it.isNotBlank() }
 
-
-
-
                 LinkPreview(
                     url = url,
                     title = title,
@@ -51,6 +50,7 @@ class LinkPreviewFetcher(private val client: OkHttpClient = OkHttpClient()) {
 
             }
         }catch (e: Exception){
+            delay(500)
             null
         }
     }

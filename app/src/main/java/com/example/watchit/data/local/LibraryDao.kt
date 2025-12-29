@@ -44,22 +44,26 @@ interface LibraryDao {
     @Query("SELECT * FROM movies WHERE id= :movieId")
     fun getMovieById(movieId: Long): MovieEntity?
 
+    @Query("SELECT id FROM movies WHERE sourceUrl = :url LIMIT 1")
+    suspend fun getMovieIdBySourceUrl(url: String): Long
+
 
     // --- Linking movies to libraries ---
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertLibraryMovieCrossRef(crossRef: LibraryMovieCrossRef)
+    suspend fun insertLibraryMovieCrossRef(crossRef: LibraryMovieCrossRef):Long
 
     @Transaction
-    suspend fun addMovieToLibrary(libraryId: Long, movie: MovieEntity): Long {
-        val movieId = insertMovie(movie)
-        insertLibraryMovieCrossRef(
+    suspend fun addMovieToLibrary(libraryId: Long, movie: MovieEntity): Boolean {
+
+        val movieId = insertMovie(movie).takeIf { it != -1L } ?: getMovieIdBySourceUrl(movie.sourceUrl)
+        val result = insertLibraryMovieCrossRef(
             LibraryMovieCrossRef(
                 libraryId = libraryId,
                 movieId = movieId
             )
         )
-        return movieId
+        return result != -1L
     }
 
     @Query("""

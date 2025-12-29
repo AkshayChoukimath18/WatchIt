@@ -50,7 +50,7 @@ class LibraryRepositoryImpl @Inject constructor(
         posterUrl: String?,
         sourceUrl: String,
         sourcePlatform: String
-    ): Long {
+    ): Boolean {
         val entity = MovieEntity(
             title = title,
             posterUrl = posterUrl,
